@@ -6,4 +6,8 @@
   --color-lines-dark: #3e3f4e;
   --color-main-purple: #635fc7;
   --color-medium-grey: #828fa3;
+  --color-todo: #49c4e5;
+  --color-doing: #8471f2;
+  --color-done: #67e2ae;
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
 }
