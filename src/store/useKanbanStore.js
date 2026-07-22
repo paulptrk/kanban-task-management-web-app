@@ -10,3 +10,8 @@ export const useKanbanStore = create((set) => {
     setSelectedBoard: (id) => set({ selectedBoard: id }),
   };
 });
+
+export const useSelectedBoard = () =>
+  useKanbanStore((state) =>
+    state.boards.find((board) => board.id === state.selectedBoard)
+  );
