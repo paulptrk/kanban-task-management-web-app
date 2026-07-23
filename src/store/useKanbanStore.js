@@ -10,6 +10,23 @@ export const useKanbanStore = create((set) => {
     setSelectedBoard: (id) => set({ selectedBoard: id }),
     selectedTask: null,
     setSelectedTask: (id) => set({ selectedTask: id }),
+    toggleSubtask: (subtaskId) =>
+      set((state) => ({
+        boards: state.boards.map((board) => ({
+          ...board,
+          columns: board.columns.map((column) => ({
+            ...column,
+            tasks: column.tasks.map((task) => ({
+              ...task,
+              subtasks: task.subtasks.map((subtask) =>
+                subtask.id === subtaskId
+                  ? { ...subtask, isCompleted: !subtask.isCompleted }
+                  : subtask
+              ),
+            })),
+          })),
+        })),
+      })),
   };
 });
 
@@ -24,6 +41,6 @@ export const useSelectedTask = () =>
     return (
       board?.columns
         .flatMap((c) => c.tasks)
-        .find((t) => t.id === state.selectedTaskId) ?? null
+        .find((t) => t.id === state.selectedTask) ?? null
     );
   });
