@@ -1,9 +1,12 @@
 import TaskCard from './TaskCard';
+import { useKanbanStore } from '../store/useKanbanStore';
 
 const DOT_COLORS = ['bg-todo', 'bg-doing', 'bg-done'];
 
 export default function Column({ name, tasks, index }) {
   const dotColor = DOT_COLORS[index % DOT_COLORS.length];
+
+  const setSelectedTask = useKanbanStore((state) => state.setSelectedTask);
 
   return (
     <div className="flex w-[280px] shrink-0 flex-col">
@@ -15,7 +18,11 @@ export default function Column({ name, tasks, index }) {
       </div>
       <div className="flex flex-col gap-5">
         {tasks.map((task) => (
-          <TaskCard key={task.id} task={task} />
+          <TaskCard
+            key={task.id}
+            task={task}
+            onTaskClick={() => setSelectedTask(task.id)}
+          />
         ))}
       </div>
     </div>
