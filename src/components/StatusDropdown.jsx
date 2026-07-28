@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useKanbanStore } from '../store/useKanbanStore';
 import ChevronDownIcon from '../../assets/icon-chevron-down.svg?react';
 import ChevronUpIcon from '../../assets/icon-chevron-up.svg?react';
 
@@ -10,6 +11,9 @@ export default function StatusDropdown({ status, columns = [] }) {
   const [position, setPosition] = useState(null);
   const containerRef = useRef(null);
   const buttonRef = useRef(null);
+
+  const moveTask = useKanbanStore((state) => state.moveTask);
+  const selectedTask = useKanbanStore((state) => state.selectedTask);
 
   useEffect(() => {
     setSelected(status);
@@ -92,6 +96,7 @@ export default function StatusDropdown({ status, columns = [] }) {
                 type="button"
                 onClick={() => {
                   setSelected(column.id);
+                  moveTask(selectedTask, column.id);
                   setIsOpen(false);
                 }}
                 className="hover:text-main-purple hover:bg-main-purple/25 text-medium-grey -mx-2 -my-1 w-full cursor-pointer rounded-[4px] px-2 py-1 text-left text-[13px] leading-[23px] font-medium"
