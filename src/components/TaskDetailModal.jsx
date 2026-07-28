@@ -17,9 +17,6 @@ export default function TaskDetailModal() {
   const numCompletedSubtasks = subTasks?.filter(
     (subtask) => subtask.isCompleted
   ).length;
-  const currentStatusName = selectedBoard?.columns.find(
-    (column) => column.id === selectedTask?.status
-  )?.name;
 
   return (
     <Modal isOpen={selectedTask !== null} onClose={() => setSelectedTask(null)}>
@@ -47,7 +44,10 @@ export default function TaskDetailModal() {
             </div>
           </div>
 
-          <StatusDropdown status={currentStatusName} />
+          <StatusDropdown
+            status={selectedTask.status}
+            columns={selectedBoard?.columns}
+          />
         </div>
       )}
     </Modal>

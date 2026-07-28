@@ -2,10 +2,9 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import ChevronDownIcon from '../../assets/icon-chevron-down.svg?react';
 import ChevronUpIcon from '../../assets/icon-chevron-up.svg?react';
 
-const STATUSES = ['Todo', 'Doing', 'Done'];
 const MENU_GAP = 8;
 
-export default function StatusDropdown({ status }) {
+export default function StatusDropdown({ status, columns = [] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(status);
   const [position, setPosition] = useState(null);
@@ -69,7 +68,7 @@ export default function StatusDropdown({ status }) {
         onClick={() => setIsOpen((open) => !open)}
         className="border-medium-grey/25 bg-dark-grey flex w-full items-center justify-between rounded-[4px] border px-4 py-[9px] text-left text-[13px] font-medium text-white"
       >
-        {selected}
+        {columns.find((column) => column.id === selected)?.name}
         {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
       </button>
 
@@ -79,17 +78,21 @@ export default function StatusDropdown({ status }) {
           style={{ top: position.top, left: position.left, width: position.width }}
           className="bg-very-dark-grey fixed z-50 flex flex-col gap-2 rounded-[8px] p-4 shadow-[0px_10px_20px_0px_rgba(54,78,126,0.25)]"
         >
-          {STATUSES.map((option) => (
-            <li key={option} role="option" aria-selected={option === selected}>
+          {columns.map((column) => (
+            <li
+              key={column.id}
+              role="option"
+              aria-selected={column.id === selected}
+            >
               <button
                 type="button"
                 onClick={() => {
-                  setSelected(option);
+                  setSelected(column.id);
                   setIsOpen(false);
                 }}
                 className="hover:text-main-purple hover:bg-main-purple/25 text-medium-grey -mx-2 -my-1 w-full cursor-pointer rounded-[4px] px-2 py-1 text-left text-[13px] leading-[23px] font-medium"
               >
-                {option}
+                {column.name}
               </button>
             </li>
           ))}
