@@ -15,12 +15,14 @@ export default function Button({
   className = '',
   onClick,
   type = 'button',
+  disabled = false,
 }) {
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`cursor-pointer rounded-full font-bold ${VARIANT_STYLES[variant]} ${SIZE_STYLES[size]} ${className}`}
+      disabled={disabled}
+      className={`rounded-full font-bold disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-main-purple ${disabled ? '' : 'cursor-pointer'} ${VARIANT_STYLES[variant]} ${SIZE_STYLES[size]} ${className}`}
     >
       {children}
     </button>

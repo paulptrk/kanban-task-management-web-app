@@ -12,7 +12,12 @@ export default function Header() {
       <span className="text-2xl font-bold text-white">
         {selectedBoard.name}
       </span>
-      <Button onClick={() => setIsAddTaskOpen(true)}>+ Add New Task</Button>
+      <Button
+        onClick={() => setIsAddTaskOpen(true)}
+        disabled={selectedBoard.columns.length === 0}
+      >
+        + Add New Task
+      </Button>
 
       <AddTaskModal
         isOpen={isAddTaskOpen}
