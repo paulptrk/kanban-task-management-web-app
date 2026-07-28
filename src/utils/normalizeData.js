@@ -1,3 +1,16 @@
+export function createTask(title, description, subtaskTitles) {
+  return {
+    id: crypto.randomUUID(),
+    title,
+    description,
+    subtasks: subtaskTitles.map((subtaskTitle) => ({
+      id: crypto.randomUUID(),
+      title: subtaskTitle,
+      isCompleted: false,
+    })),
+  };
+}
+
 export function normalizeBoards(rawData) {
   return rawData.boards.map((board) => ({
     id: crypto.randomUUID(),

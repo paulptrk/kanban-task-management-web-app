@@ -3,12 +3,15 @@ import Modal from './Modal';
 import Button from './Button';
 import StatusDropdown from './StatusDropdown';
 import SubtaskRow from './SubtaskRow';
+import { useKanbanStore } from '../store/useKanbanStore';
+import { createTask } from '../utils/normalizeData';
 
 function createEmptySubtask() {
   return { id: crypto.randomUUID(), value: '' };
 }
 
 export default function AddTaskModal({ isOpen, onClose, columns = [] }) {
+  const addTask = useKanbanStore((state) => state.addTask);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [subtasks, setSubtasks] = useState([
@@ -54,6 +57,12 @@ export default function AddTaskModal({ isOpen, onClose, columns = [] }) {
     );
     if (hasEmptyTitle || hasEmptySubtask) return;
 
+    const task = createTask(
+      title,
+      description,
+      subtasks.map((subtask) => subtask.value)
+    );
+    addTask(task, status);
     onClose();
   }
 
