@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSelectedBoard } from '../store/useKanbanStore';
 import Button from './Button';
-import AddTaskModal from './AddTaskModal';
+import TaskFormModal from './TaskFormModal';
 
 export default function Header() {
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
@@ -19,7 +19,7 @@ export default function Header() {
         + Add New Task
       </Button>
 
-      <AddTaskModal
+      <TaskFormModal
         isOpen={isAddTaskOpen}
         onClose={() => setIsAddTaskOpen(false)}
         columns={selectedBoard.columns}

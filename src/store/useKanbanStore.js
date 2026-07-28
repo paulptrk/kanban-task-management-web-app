@@ -38,6 +38,18 @@ export const useKanbanStore = create((set) => {
           ),
         })),
       })),
+    updateTask: (taskId, updates) =>
+      set((state) => ({
+        boards: state.boards.map((board) => ({
+          ...board,
+          columns: board.columns.map((column) => ({
+            ...column,
+            tasks: column.tasks.map((task) =>
+              task.id === taskId ? { ...task, ...updates } : task
+            ),
+          })),
+        })),
+      })),
     moveTask: (taskId, targetColumnId) =>
       set((state) => ({
         boards: state.boards.map((board) => {

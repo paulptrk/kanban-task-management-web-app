@@ -10,8 +10,19 @@ function createEmptySubtask() {
   return { id: crypto.randomUUID(), value: '' };
 }
 
-export default function AddTaskModal({ isOpen, onClose, columns = [] }) {
+export default function TaskFormModal({
+  isOpen,
+  onClose,
+  columns = [],
+  task = null,
+  currentColumnId,
+}) {
+  const isEditMode = task !== null;
+
   const addTask = useKanbanStore((state) => state.addTask);
+  const updateTask = useKanbanStore((state) => state.updateTask);
+  const moveTask = useKanbanStore((state) => state.moveTask);
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [subtasks, setSubtasks] = useState([
@@ -19,14 +30,30 @@ export default function AddTaskModal({ isOpen, onClose, columns = [] }) {
     createEmptySubtask(),
   ]);
   const [status, setStatus] = useState(columns[0]?.id);
+  const [originalColumnId, setOriginalColumnId] = useState(null);
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return;
-    setTitle('');
-    setDescription('');
-    setSubtasks([createEmptySubtask(), createEmptySubtask()]);
-    setStatus(columns[0]?.id);
+
+    if (isEditMode) {
+      setTitle(task.title);
+      setDescription(task.description);
+      setSubtasks(
+        task.subtasks.map((subtask) => ({
+          id: subtask.id,
+          value: subtask.title,
+          isCompleted: subtask.isCompleted,
+        }))
+      );
+      setStatus(currentColumnId);
+      setOriginalColumnId(currentColumnId);
+    } else {
+      setTitle('');
+      setDescription('');
+      setSubtasks([createEmptySubtask(), createEmptySubtask()]);
+      setStatus(columns[0]?.id);
+    }
     setSubmitted(false);
   }, [isOpen]);
 
@@ -48,7 +75,7 @@ export default function AddTaskModal({ isOpen, onClose, columns = [] }) {
     setSubtasks((prev) => [...prev, createEmptySubtask()]);
   }
 
-  function handleCreateTask() {
+  function handleSubmit() {
     setSubmitted(true);
 
     const hasEmptyTitle = title.trim() === '';
@@ -57,30 +84,48 @@ export default function AddTaskModal({ isOpen, onClose, columns = [] }) {
     );
     if (hasEmptyTitle || hasEmptySubtask) return;
 
-    const task = createTask(
-      title,
-      description,
-      subtasks.map((subtask) => subtask.value)
-    );
-    addTask(task, status);
+    if (isEditMode) {
+      updateTask(task.id, {
+        title,
+        description,
+        subtasks: subtasks.map((subtask) => ({
+          id: subtask.id,
+          title: subtask.value,
+          isCompleted: subtask.isCompleted,
+        })),
+      });
+      if (status !== originalColumnId) {
+        moveTask(task.id, status);
+      }
+    } else {
+      const newTask = createTask(
+        title,
+        description,
+        subtasks.map((subtask) => subtask.value)
+      );
+      addTask(newTask, status);
+    }
+
     onClose();
   }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="flex flex-col gap-6">
-        <p className="text-[18px] font-bold text-white">Add New Task</p>
+        <p className="text-[18px] font-bold text-white">
+          {isEditMode ? 'Edit Task' : 'Add New Task'}
+        </p>
 
         <div className="flex flex-col gap-2">
           <label
-            htmlFor="new-task-title"
+            htmlFor="task-title"
             className="text-[12px] font-bold text-white"
           >
             Title
           </label>
           <div className="relative">
             <input
-              id="new-task-title"
+              id="task-title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Take coffee break"
@@ -100,13 +145,13 @@ export default function AddTaskModal({ isOpen, onClose, columns = [] }) {
 
         <div className="flex flex-col gap-2">
           <label
-            htmlFor="new-task-description"
+            htmlFor="task-description"
             className="text-[12px] font-bold text-white"
           >
             Description
           </label>
           <textarea
-            id="new-task-description"
+            id="task-description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little."
@@ -139,8 +184,8 @@ export default function AddTaskModal({ isOpen, onClose, columns = [] }) {
           label="Status"
         />
 
-        <Button size="small" onClick={handleCreateTask}>
-          Create Task
+        <Button size="small" onClick={handleSubmit}>
+          {isEditMode ? 'Save Changes' : 'Create Task'}
         </Button>
       </div>
     </Modal>
