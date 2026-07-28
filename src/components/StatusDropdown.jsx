@@ -87,7 +87,7 @@ export default function StatusDropdown({ status }) {
                   setSelected(option);
                   setIsOpen(false);
                 }}
-                className="hover:text-main-purple text-medium-grey w-full text-left text-[13px] leading-[23px] font-medium"
+                className="hover:text-main-purple hover:bg-main-purple/25 text-medium-grey -mx-2 -my-1 w-full cursor-pointer rounded-[4px] px-2 py-1 text-left text-[13px] leading-[23px] font-medium"
               >
                 {option}
               </button>

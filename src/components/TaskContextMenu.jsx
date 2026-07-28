@@ -73,7 +73,7 @@ export default function TaskContextMenu() {
             type="button"
             role="menuitem"
             onClick={() => setIsOpen(false)}
-            className="text-medium-grey text-left text-[13px] leading-[23px] font-medium"
+            className="text-medium-grey hover:bg-main-purple/25 -mx-2 -my-1 cursor-pointer rounded-[4px] px-2 py-1 text-left text-[13px] leading-[23px] font-medium"
           >
             Edit Task
           </button>
@@ -81,7 +81,7 @@ export default function TaskContextMenu() {
             type="button"
             role="menuitem"
             onClick={() => setIsOpen(false)}
-            className="text-red text-left text-[13px] leading-[23px] font-medium"
+            className="text-red hover:bg-red/25 -mx-2 -my-1 cursor-pointer rounded-[4px] px-2 py-1 text-left text-[13px] leading-[23px] font-medium"
           >
             Delete Task
           </button>
