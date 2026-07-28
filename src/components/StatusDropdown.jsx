@@ -66,7 +66,7 @@ export default function StatusDropdown({ status, columns = [] }) {
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         onClick={() => setIsOpen((open) => !open)}
-        className="border-medium-grey/25 bg-dark-grey flex w-full items-center justify-between rounded-[4px] border px-4 py-[9px] text-left text-[13px] font-medium text-white"
+        className="border-medium-grey/25 bg-dark-grey flex w-full cursor-pointer items-center justify-between rounded-[4px] border px-4 py-[9px] text-left text-[13px] font-medium text-white"
       >
         {columns.find((column) => column.id === selected)?.name}
         {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
@@ -75,7 +75,11 @@ export default function StatusDropdown({ status, columns = [] }) {
       {isOpen && position && (
         <ul
           role="listbox"
-          style={{ top: position.top, left: position.left, width: position.width }}
+          style={{
+            top: position.top,
+            left: position.left,
+            width: position.width,
+          }}
           className="bg-very-dark-grey fixed z-50 flex flex-col gap-2 rounded-[8px] p-4 shadow-[0px_10px_20px_0px_rgba(54,78,126,0.25)]"
         >
           {columns.map((column) => (

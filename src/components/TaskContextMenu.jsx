@@ -58,6 +58,7 @@ export default function TaskContextMenu() {
         aria-label="Task menu"
         aria-haspopup="menu"
         aria-expanded={isOpen}
+        className="cursor-pointer"
         onClick={() => setIsOpen((open) => !open)}
       >
         <VerticalEllipsisIcon />
