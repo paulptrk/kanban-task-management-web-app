@@ -11,7 +11,6 @@ export function normalizeBoards(rawData) {
           id: crypto.randomUUID(),
           title: task.title,
           description: task.description,
-          status: columnId,
           subtasks: task.subtasks.map((subtask) => ({
             id: crypto.randomUUID(),
             title: subtask.title,
