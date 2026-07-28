@@ -1,23 +1,24 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { useKanbanStore } from '../store/useKanbanStore';
 import ChevronDownIcon from '../../assets/icon-chevron-down.svg?react';
 import ChevronUpIcon from '../../assets/icon-chevron-up.svg?react';
 
 const MENU_GAP = 8;
 
-export default function StatusDropdown({ status, columns = [] }) {
+export default function StatusDropdown({
+  value,
+  columns = [],
+  onChange,
+  label = 'Current Status',
+}) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(status);
+  const [selected, setSelected] = useState(value);
   const [position, setPosition] = useState(null);
   const containerRef = useRef(null);
   const buttonRef = useRef(null);
 
-  const moveTask = useKanbanStore((state) => state.moveTask);
-  const selectedTask = useKanbanStore((state) => state.selectedTask);
-
   useEffect(() => {
-    setSelected(status);
-  }, [status]);
+    setSelected(value);
+  }, [value]);
 
   useLayoutEffect(() => {
     if (!isOpen) return;
@@ -62,7 +63,7 @@ export default function StatusDropdown({ status, columns = [] }) {
 
   return (
     <div ref={containerRef} className="flex flex-col">
-      <p className="mb-2 text-[12px] font-bold text-white">Current Status</p>
+      <p className="mb-2 text-[12px] font-bold text-white">{label}</p>
 
       <button
         ref={buttonRef}
@@ -96,7 +97,7 @@ export default function StatusDropdown({ status, columns = [] }) {
                 type="button"
                 onClick={() => {
                   setSelected(column.id);
-                  moveTask(selectedTask, column.id);
+                  onChange?.(column.id);
                   setIsOpen(false);
                 }}
                 className="hover:text-main-purple hover:bg-main-purple/25 text-medium-grey -mx-2 -my-1 w-full cursor-pointer rounded-[4px] px-2 py-1 text-left text-[13px] leading-[23px] font-medium"

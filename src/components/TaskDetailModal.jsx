@@ -10,6 +10,7 @@ import {
 
 export default function TaskDetailModal() {
   const setSelectedTask = useKanbanStore((state) => state.setSelectedTask);
+  const moveTask = useKanbanStore((state) => state.moveTask);
   const selectedTask = useSelectedTask();
   const selectedBoard = useSelectedBoard();
 
@@ -48,8 +49,9 @@ export default function TaskDetailModal() {
           </div>
 
           <StatusDropdown
-            status={currentColumn?.id}
+            value={currentColumn?.id}
             columns={selectedBoard?.columns}
+            onChange={(columnId) => moveTask(selectedTask.id, columnId)}
           />
         </div>
       )}
