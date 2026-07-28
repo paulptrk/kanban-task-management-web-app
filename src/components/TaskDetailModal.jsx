@@ -1,18 +1,25 @@
 import Modal from './Modal';
 import Subtask from './Subtask';
-import VerticalEllipsisIcon from '../../assets/icon-vertical-ellipsis.svg?react';
-import ChevronDownIcon from '../../assets/icon-chevron-down.svg?react';
-import { useKanbanStore } from '../store/useKanbanStore';
-import { useSelectedTask } from '../store/useKanbanStore';
+import TaskContextMenu from './TaskContextMenu';
+import StatusDropdown from './StatusDropdown';
+import {
+  useKanbanStore,
+  useSelectedBoard,
+  useSelectedTask,
+} from '../store/useKanbanStore';
 
 export default function TaskDetailModal() {
   const setSelectedTask = useKanbanStore((state) => state.setSelectedTask);
   const selectedTask = useSelectedTask();
+  const selectedBoard = useSelectedBoard();
 
   const subTasks = selectedTask?.subtasks;
   const numCompletedSubtasks = subTasks?.filter(
     (subtask) => subtask.isCompleted
   ).length;
+  const currentStatusName = selectedBoard?.columns.find(
+    (column) => column.id === selectedTask?.status
+  )?.name;
 
   return (
     <Modal isOpen={selectedTask !== null} onClose={() => setSelectedTask(null)}>
@@ -22,9 +29,7 @@ export default function TaskDetailModal() {
             <p className="text-[18px] font-bold text-white">
               {selectedTask.title}
             </p>
-            <button type="button" aria-label="Task menu">
-              <VerticalEllipsisIcon />
-            </button>
+            <TaskContextMenu />
           </div>
 
           <p className="text-medium-grey text-[13px] leading-[23px] font-medium">
@@ -42,22 +47,7 @@ export default function TaskDetailModal() {
             </div>
           </div>
 
-          <div className="flex flex-col">
-            <p className="mb-2 text-[12px] font-bold text-white">
-              Current Status
-            </p>
-            <div className="relative">
-              <select
-                defaultValue="Doing"
-                className="border-medium-grey/25 bg-dark-grey w-full appearance-none rounded-[4px] border px-4 py-[9px] text-[13px] font-medium text-white"
-              >
-                <option value="Todo">Todo</option>
-                <option value="Doing">Doing</option>
-                <option value="Done">Done</option>
-              </select>
-              <ChevronDownIcon className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
-            </div>
-          </div>
+          <StatusDropdown status={currentStatusName} />
         </div>
       )}
     </Modal>
