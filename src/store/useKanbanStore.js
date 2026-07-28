@@ -27,6 +27,32 @@ export const useKanbanStore = create((set) => {
           })),
         })),
       })),
+    moveTask: (taskId, targetColumnId) =>
+      set((state) => ({
+        boards: state.boards.map((board) => {
+          // Find task
+          const task = board.columns
+            .flatMap((column) => column.tasks)
+            .find((t) => t.id === taskId);
+          // If task does not exist, return the board
+          if (!task) return board;
+
+          return {
+            ...board,
+            columns: board.columns.map((column) => {
+              // Filter out task from every column first, so a re-selected
+              // status doesn't duplicate it in its own column
+              const remainingTasks = column.tasks.filter(
+                (t) => t.id !== taskId
+              );
+              // Add task back only to the target column
+              return column.id === targetColumnId
+                ? { ...column, tasks: [...remainingTasks, task] }
+                : { ...column, tasks: remainingTasks };
+            }),
+          };
+        }),
+      })),
   };
 });
 
