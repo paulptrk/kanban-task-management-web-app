@@ -50,6 +50,16 @@ export const useKanbanStore = create((set) => {
           })),
         })),
       })),
+    deleteTask: (taskId) =>
+      set((state) => ({
+        boards: state.boards.map((board) => ({
+          ...board,
+          columns: board.columns.map((column) => ({
+            ...column,
+            tasks: column.tasks.filter((task) => task.id !== taskId),
+          })),
+        })),
+      })),
     moveTask: (taskId, targetColumnId) =>
       set((state) => ({
         boards: state.boards.map((board) => {
