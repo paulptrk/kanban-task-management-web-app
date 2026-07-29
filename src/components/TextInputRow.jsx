@@ -1,13 +1,20 @@
 import CrossIcon from '../../assets/icon-cross.svg?react';
 
-export default function SubtaskRow({ value, onChange, onDelete, error }) {
+export default function TextInputRow({
+  value,
+  onChange,
+  onDelete,
+  error,
+  placeholder = 'e.g. Make coffee',
+  deleteLabel = 'Delete',
+}) {
   return (
     <div className="flex items-center gap-4">
       <div className="relative flex-1">
         <input
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="e.g. Make coffee"
+          placeholder={placeholder}
           className={`bg-dark-grey w-full rounded-[4px] border py-[9px] pr-4 pl-4 text-[13px] font-medium text-white placeholder:text-white/25 focus:outline-none ${
             error
               ? 'border-red'
@@ -23,7 +30,7 @@ export default function SubtaskRow({ value, onChange, onDelete, error }) {
       <button
         type="button"
         onClick={onDelete}
-        aria-label="Delete subtask"
+        aria-label={deleteLabel}
         className={`cursor-pointer ${error ? 'text-red' : 'text-medium-grey hover:text-red'}`}
       >
         <CrossIcon className="size-[15px]" />

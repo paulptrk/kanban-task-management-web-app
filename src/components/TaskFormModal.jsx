@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Modal from './Modal';
 import Button from './Button';
 import StatusDropdown from './StatusDropdown';
-import SubtaskRow from './SubtaskRow';
+import TextInputRow from './TextInputRow';
 import { useKanbanStore } from '../store/useKanbanStore';
 import { createTask } from '../utils/normalizeData';
 
@@ -163,12 +163,13 @@ export default function TaskFormModal({
           <p className="text-[12px] font-bold text-white">Subtasks</p>
           <div className="flex flex-col gap-3">
             {subtasks.map((subtask) => (
-              <SubtaskRow
+              <TextInputRow
                 key={subtask.id}
                 value={subtask.value}
                 onChange={(value) => updateSubtask(subtask.id, value)}
                 onDelete={() => deleteSubtask(subtask.id)}
                 error={submitted && subtask.value.trim() === ''}
+                deleteLabel="Delete subtask"
               />
             ))}
             <Button
