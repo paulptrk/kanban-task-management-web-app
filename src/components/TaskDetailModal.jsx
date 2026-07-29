@@ -4,6 +4,7 @@ import Subtask from './Subtask';
 import TaskContextMenu from './TaskContextMenu';
 import StatusDropdown from './StatusDropdown';
 import TaskFormModal from './TaskFormModal';
+import ConfirmModal from './ConfirmModal';
 import {
   useKanbanStore,
   useSelectedBoard,
@@ -13,9 +14,11 @@ import {
 export default function TaskDetailModal() {
   const setSelectedTask = useKanbanStore((state) => state.setSelectedTask);
   const moveTask = useKanbanStore((state) => state.moveTask);
+  const deleteTask = useKanbanStore((state) => state.deleteTask);
   const selectedTask = useSelectedTask();
   const selectedBoard = useSelectedBoard();
   const [isEditing, setIsEditing] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const subTasks = selectedTask?.subtasks;
   const numCompletedSubtasks = subTasks?.filter(
@@ -28,9 +31,9 @@ export default function TaskDetailModal() {
   return (
     <>
       <Modal
-        isOpen={selectedTask !== null && !isEditing}
+        isOpen={selectedTask !== null && !isEditing && !isDeleting}
         onClose={() => {
-          if (!isEditing) setSelectedTask(null);
+          if (!isEditing && !isDeleting) setSelectedTask(null);
         }}
       >
         {selectedTask && (
@@ -39,7 +42,10 @@ export default function TaskDetailModal() {
               <p className="text-[18px] font-bold text-white">
                 {selectedTask.title}
               </p>
-              <TaskContextMenu onEdit={() => setIsEditing(true)} />
+              <TaskContextMenu
+                onEdit={() => setIsEditing(true)}
+                onDelete={() => setIsDeleting(true)}
+              />
             </div>
 
             <p className="text-medium-grey text-[13px] leading-[23px] font-medium">
@@ -72,6 +78,18 @@ export default function TaskDetailModal() {
         columns={selectedBoard?.columns}
         task={selectedTask}
         currentColumnId={currentColumn?.id}
+      />
+
+      <ConfirmModal
+        isOpen={isDeleting}
+        onClose={() => setIsDeleting(false)}
+        onConfirm={() => {
+          deleteTask(selectedTask.id);
+          setSelectedTask(null);
+          setIsDeleting(false);
+        }}
+        title="Delete this task?"
+        message={`Are you sure you want to delete the '${selectedTask?.title}' task and its subtasks? This action cannot be reversed.`}
       />
     </>
   );

@@ -4,7 +4,7 @@ import VerticalEllipsisIcon from '../../assets/icon-vertical-ellipsis.svg?react'
 const MENU_WIDTH = 192;
 const MENU_GAP = 16;
 
-export default function TaskContextMenu({ onEdit }) {
+export default function TaskContextMenu({ onEdit, onDelete }) {
   const [isOpen, setIsOpen] = useState(false);
   const [position, setPosition] = useState(null);
   const containerRef = useRef(null);
@@ -84,7 +84,10 @@ export default function TaskContextMenu({ onEdit }) {
           <button
             type="button"
             role="menuitem"
-            onClick={() => setIsOpen(false)}
+            onClick={() => {
+              setIsOpen(false);
+              onDelete?.();
+            }}
             className="text-red hover:bg-red/25 -mx-2 -my-1 cursor-pointer rounded-[4px] px-2 py-1 text-left text-[13px] leading-[23px] font-medium"
           >
             Delete Task
