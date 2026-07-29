@@ -8,6 +8,11 @@ export const useKanbanStore = create((set) => {
     boards,
     selectedBoard: boards[0]?.id ?? null,
     setSelectedBoard: (id) => set({ selectedBoard: id }),
+    addBoard: (board) =>
+      set((state) => ({
+        boards: [...state.boards, board],
+        selectedBoard: board.id,
+      })),
     selectedTask: null,
     setSelectedTask: (id) => set({ selectedTask: id }),
     toggleSubtask: (subtaskId) =>

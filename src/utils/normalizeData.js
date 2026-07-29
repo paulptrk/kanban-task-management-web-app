@@ -11,6 +11,18 @@ export function createTask(title, description, subtaskTitles) {
   };
 }
 
+export function createBoard(name, columnNames) {
+  return {
+    id: crypto.randomUUID(),
+    name,
+    columns: columnNames.map((columnName) => ({
+      id: crypto.randomUUID(),
+      name: columnName,
+      tasks: [],
+    })),
+  };
+}
+
 export function normalizeBoards(rawData) {
   return rawData.boards.map((board) => ({
     id: crypto.randomUUID(),
