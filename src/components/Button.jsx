@@ -1,6 +1,7 @@
 const VARIANT_STYLES = {
   primary: 'bg-main-purple text-white hover:bg-main-purple-hover',
   secondary: 'bg-white text-main-purple',
+  destructive: 'bg-red text-white hover:bg-red-hover',
 };
 
 const SIZE_STYLES = {
