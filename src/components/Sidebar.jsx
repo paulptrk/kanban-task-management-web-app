@@ -1,12 +1,15 @@
+import { useState } from 'react';
 import { useKanbanStore } from '../store/useKanbanStore';
 import logoLight from '../../assets/logo-light.svg';
 import BoardListItem from './BoardListItem';
 import HideSidebarButton from './HideSidebarButton';
+import BoardFormModal from './BoardFormModal';
 
 export default function Sidebar() {
   const boards = useKanbanStore((state) => state.boards);
   const setSelectedBoard = useKanbanStore((state) => state.setSelectedBoard);
   const selectedBoard = useKanbanStore((state) => state.selectedBoard);
+  const [isAddBoardOpen, setIsAddBoardOpen] = useState(false);
 
   return (
     <div className="bg-dark-grey border-lines-dark flex w-[300px] shrink-0 flex-col border-r">
@@ -29,11 +32,20 @@ export default function Sidebar() {
                 onBoardClick={() => setSelectedBoard(board.id)}
               />
             ))}
-            <BoardListItem title="+ Create New Board" variant="create" />
+            <BoardListItem
+              title="+ Create New Board"
+              variant="create"
+              onBoardClick={() => setIsAddBoardOpen(true)}
+            />
           </div>
         </div>
         <HideSidebarButton />
       </div>
+
+      <BoardFormModal
+        isOpen={isAddBoardOpen}
+        onClose={() => setIsAddBoardOpen(false)}
+      />
     </div>
   );
 }
