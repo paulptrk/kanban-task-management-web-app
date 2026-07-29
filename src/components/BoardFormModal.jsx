@@ -7,17 +7,20 @@ import { createBoard } from '../utils/normalizeData';
 
 function createDefaultColumns() {
   return [
-    { id: crypto.randomUUID(), value: 'Todo' },
-    { id: crypto.randomUUID(), value: 'Doing' },
+    { id: crypto.randomUUID(), value: 'Todo', tasks: [] },
+    { id: crypto.randomUUID(), value: 'Doing', tasks: [] },
   ];
 }
 
 function createEmptyColumn() {
-  return { id: crypto.randomUUID(), value: '' };
+  return { id: crypto.randomUUID(), value: '', tasks: [] };
 }
 
-export default function BoardFormModal({ isOpen, onClose }) {
+export default function BoardFormModal({ isOpen, onClose, board = null }) {
+  const isEditMode = board !== null;
+
   const addBoard = useKanbanStore((state) => state.addBoard);
+  const updateBoard = useKanbanStore((state) => state.updateBoard);
 
   const [name, setName] = useState('');
   const [columns, setColumns] = useState(createDefaultColumns());
@@ -26,8 +29,19 @@ export default function BoardFormModal({ isOpen, onClose }) {
   useEffect(() => {
     if (!isOpen) return;
 
-    setName('');
-    setColumns(createDefaultColumns());
+    if (isEditMode) {
+      setName(board.name);
+      setColumns(
+        board.columns.map((column) => ({
+          id: column.id,
+          value: column.name,
+          tasks: column.tasks,
+        }))
+      );
+    } else {
+      setName('');
+      setColumns(createDefaultColumns());
+    }
     setSubmitted(false);
   }, [isOpen]);
 
@@ -56,11 +70,22 @@ export default function BoardFormModal({ isOpen, onClose }) {
     );
     if (hasEmptyName || hasEmptyColumn) return;
 
-    const newBoard = createBoard(
-      name,
-      columns.map((column) => column.value)
-    );
-    addBoard(newBoard);
+    if (isEditMode) {
+      updateBoard(board.id, {
+        name,
+        columns: columns.map((column) => ({
+          id: column.id,
+          name: column.value,
+          tasks: column.tasks,
+        })),
+      });
+    } else {
+      const newBoard = createBoard(
+        name,
+        columns.map((column) => column.value)
+      );
+      addBoard(newBoard);
+    }
 
     onClose();
   }
@@ -68,7 +93,9 @@ export default function BoardFormModal({ isOpen, onClose }) {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="flex flex-col gap-6">
-        <p className="text-[18px] font-bold text-white">Add New Board</p>
+        <p className="text-[18px] font-bold text-white">
+          {isEditMode ? 'Edit Board' : 'Add New Board'}
+        </p>
 
         <div className="flex flex-col gap-2">
           <label
@@ -123,7 +150,7 @@ export default function BoardFormModal({ isOpen, onClose }) {
         </div>
 
         <Button size="small" className="w-full" onClick={handleSubmit}>
-          Create New Board
+          {isEditMode ? 'Save Changes' : 'Create New Board'}
         </Button>
       </div>
     </Modal>

@@ -2,9 +2,12 @@ import Column from './Column';
 import { useSelectedBoard } from '../store/useKanbanStore';
 
 export default function Board() {
+  const selectedBoard = useSelectedBoard();
+  if (!selectedBoard) return null;
+
   return (
     <div className="flex flex-1 items-start gap-6 overflow-x-auto p-6">
-      {useSelectedBoard().columns.map((column, index) => (
+      {selectedBoard.columns.map((column, index) => (
         <Column
           key={column.id}
           name={column.name}
