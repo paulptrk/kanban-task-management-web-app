@@ -13,6 +13,25 @@ export const useKanbanStore = create((set) => {
         boards: [...state.boards, board],
         selectedBoard: board.id,
       })),
+    updateBoard: (boardId, updates) =>
+      set((state) => ({
+        boards: state.boards.map((board) =>
+          board.id === boardId ? { ...board, ...updates } : board
+        ),
+      })),
+    deleteBoard: (boardId) =>
+      set((state) => {
+        const remainingBoards = state.boards.filter(
+          (board) => board.id !== boardId
+        );
+        return {
+          boards: remainingBoards,
+          selectedBoard:
+            state.selectedBoard === boardId
+              ? (remainingBoards[0]?.id ?? null)
+              : state.selectedBoard,
+        };
+      }),
     selectedTask: null,
     setSelectedTask: (id) => set({ selectedTask: id }),
     toggleSubtask: (subtaskId) =>
