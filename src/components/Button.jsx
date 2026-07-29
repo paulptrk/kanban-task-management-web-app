@@ -5,7 +5,7 @@ const VARIANT_STYLES = {
 
 const SIZE_STYLES = {
   large: 'h-12 px-6 text-[15px]',
-  small: 'h-10 w-full px-4 text-[13px] leading-[23px]',
+  small: 'h-10 px-4 text-[13px] leading-[23px]',
 };
 
 export default function Button({

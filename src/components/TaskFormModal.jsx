@@ -171,7 +171,12 @@ export default function TaskFormModal({
                 error={submitted && subtask.value.trim() === ''}
               />
             ))}
-            <Button variant="secondary" size="small" onClick={addSubtask}>
+            <Button
+              variant="secondary"
+              size="small"
+              className="w-full"
+              onClick={addSubtask}
+            >
               + Add New Subtask
             </Button>
           </div>
@@ -184,7 +189,7 @@ export default function TaskFormModal({
           label="Status"
         />
 
-        <Button size="small" onClick={handleSubmit}>
+        <Button size="small" className="w-full" onClick={handleSubmit}>
           {isEditMode ? 'Save Changes' : 'Create Task'}
         </Button>
       </div>
