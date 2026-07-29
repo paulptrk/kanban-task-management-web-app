@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Modal from './Modal';
 import Subtask from './Subtask';
-import TaskContextMenu from './TaskContextMenu';
+import ContextMenu from './ContextMenu';
 import StatusDropdown from './StatusDropdown';
 import TaskFormModal from './TaskFormModal';
 import ConfirmModal from './ConfirmModal';
@@ -42,9 +42,16 @@ export default function TaskDetailModal() {
               <p className="text-[18px] font-bold text-white">
                 {selectedTask.title}
               </p>
-              <TaskContextMenu
-                onEdit={() => setIsEditing(true)}
-                onDelete={() => setIsDeleting(true)}
+              <ContextMenu
+                label="Task menu"
+                items={[
+                  { label: 'Edit Task', onClick: () => setIsEditing(true) },
+                  {
+                    label: 'Delete Task',
+                    onClick: () => setIsDeleting(true),
+                    variant: 'destructive',
+                  },
+                ]}
               />
             </div>
 

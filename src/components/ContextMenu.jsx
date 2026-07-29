@@ -4,7 +4,7 @@ import VerticalEllipsisIcon from '../../assets/icon-vertical-ellipsis.svg?react'
 const MENU_WIDTH = 192;
 const MENU_GAP = 16;
 
-export default function TaskContextMenu({ onEdit, onDelete }) {
+export default function ContextMenu({ label, items, align = 'center' }) {
   const [isOpen, setIsOpen] = useState(false);
   const [position, setPosition] = useState(null);
   const containerRef = useRef(null);
@@ -15,10 +15,11 @@ export default function TaskContextMenu({ onEdit, onDelete }) {
 
     function updatePosition() {
       const rect = buttonRef.current.getBoundingClientRect();
-      setPosition({
-        top: rect.bottom + MENU_GAP,
-        left: rect.left + rect.width / 2 - MENU_WIDTH / 2,
-      });
+      const left =
+        align === 'end'
+          ? rect.right - MENU_WIDTH
+          : rect.left + rect.width / 2 - MENU_WIDTH / 2;
+      setPosition({ top: rect.bottom + MENU_GAP, left });
     }
 
     updatePosition();
@@ -28,7 +29,7 @@ export default function TaskContextMenu({ onEdit, onDelete }) {
       window.removeEventListener('resize', updatePosition);
       document.removeEventListener('scroll', updatePosition, true);
     };
-  }, [isOpen]);
+  }, [isOpen, align]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -55,7 +56,7 @@ export default function TaskContextMenu({ onEdit, onDelete }) {
       <button
         ref={buttonRef}
         type="button"
-        aria-label="Task menu"
+        aria-label={label}
         aria-haspopup="menu"
         aria-expanded={isOpen}
         className="cursor-pointer"
@@ -70,28 +71,24 @@ export default function TaskContextMenu({ onEdit, onDelete }) {
           style={{ top: position.top, left: position.left }}
           className="bg-very-dark-grey fixed z-50 flex w-48 flex-col gap-4 rounded-[8px] p-4 shadow-[0px_10px_20px_0px_rgba(54,78,126,0.25)]"
         >
-          <button
-            type="button"
-            role="menuitem"
-            onClick={() => {
-              setIsOpen(false);
-              onEdit?.();
-            }}
-            className="text-medium-grey hover:bg-main-purple/25 -mx-2 -my-1 cursor-pointer rounded-[4px] px-2 py-1 text-left text-[13px] leading-[23px] font-medium"
-          >
-            Edit Task
-          </button>
-          <button
-            type="button"
-            role="menuitem"
-            onClick={() => {
-              setIsOpen(false);
-              onDelete?.();
-            }}
-            className="text-red hover:bg-red/25 -mx-2 -my-1 cursor-pointer rounded-[4px] px-2 py-1 text-left text-[13px] leading-[23px] font-medium"
-          >
-            Delete Task
-          </button>
+          {items.map((item) => (
+            <button
+              key={item.label}
+              type="button"
+              role="menuitem"
+              onClick={() => {
+                setIsOpen(false);
+                item.onClick?.();
+              }}
+              className={`-mx-2 -my-1 cursor-pointer rounded-[4px] px-2 py-1 text-left text-[13px] leading-[23px] font-medium ${
+                item.variant === 'destructive'
+                  ? 'text-red hover:bg-red/25'
+                  : 'text-medium-grey hover:bg-main-purple/25'
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
         </div>
       )}
     </div>
