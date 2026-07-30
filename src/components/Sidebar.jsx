@@ -5,7 +5,7 @@ import BoardListItem from './BoardListItem';
 import HideSidebarButton from './HideSidebarButton';
 import BoardFormModal from './BoardFormModal';
 
-export default function Sidebar() {
+export default function Sidebar({ onHide }) {
   const boards = useKanbanStore((state) => state.boards);
   const setSelectedBoard = useKanbanStore((state) => state.setSelectedBoard);
   const selectedBoard = useKanbanStore((state) => state.selectedBoard);
@@ -39,7 +39,7 @@ export default function Sidebar() {
             />
           </div>
         </div>
-        <HideSidebarButton />
+        <HideSidebarButton onClick={onHide} />
       </div>
 
       <BoardFormModal
