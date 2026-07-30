@@ -16,7 +16,12 @@ function createEmptyColumn() {
   return { id: crypto.randomUUID(), value: '', tasks: [] };
 }
 
-export default function BoardFormModal({ isOpen, onClose, board = null }) {
+export default function BoardFormModal({
+  isOpen,
+  onClose,
+  board = null,
+  autoAddColumn = false,
+}) {
   const isEditMode = board !== null;
 
   const addBoard = useKanbanStore((state) => state.addBoard);
@@ -25,22 +30,30 @@ export default function BoardFormModal({ isOpen, onClose, board = null }) {
   const [name, setName] = useState('');
   const [columns, setColumns] = useState(createDefaultColumns());
   const [submitted, setSubmitted] = useState(false);
+  const [autoFocusColumnId, setAutoFocusColumnId] = useState(null);
 
   useEffect(() => {
     if (!isOpen) return;
 
     if (isEditMode) {
+      const loadedColumns = board.columns.map((column) => ({
+        id: column.id,
+        value: column.name,
+        tasks: column.tasks,
+      }));
       setName(board.name);
-      setColumns(
-        board.columns.map((column) => ({
-          id: column.id,
-          value: column.name,
-          tasks: column.tasks,
-        }))
-      );
+      if (autoAddColumn) {
+        const newColumn = createEmptyColumn();
+        setColumns([...loadedColumns, newColumn]);
+        setAutoFocusColumnId(newColumn.id);
+      } else {
+        setColumns(loadedColumns);
+        setAutoFocusColumnId(null);
+      }
     } else {
       setName('');
       setColumns(createDefaultColumns());
+      setAutoFocusColumnId(null);
     }
     setSubmitted(false);
   }, [isOpen]);
@@ -58,7 +71,9 @@ export default function BoardFormModal({ isOpen, onClose, board = null }) {
   }
 
   function addColumn() {
-    setColumns((prev) => [...prev, createEmptyColumn()]);
+    const newColumn = createEmptyColumn();
+    setColumns((prev) => [...prev, newColumn]);
+    setAutoFocusColumnId(newColumn.id);
   }
 
   function handleSubmit() {
@@ -136,6 +151,7 @@ export default function BoardFormModal({ isOpen, onClose, board = null }) {
                 error={submitted && column.value.trim() === ''}
                 placeholder="e.g. Todo"
                 deleteLabel="Delete column"
+                autoFocus={column.id === autoFocusColumnId}
               />
             ))}
             <Button
