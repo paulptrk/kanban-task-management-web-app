@@ -63,7 +63,7 @@ export default function StatusDropdown({
 
   return (
     <div ref={containerRef} className="flex flex-col">
-      <p className="mb-2 text-[12px] font-bold text-white">{label}</p>
+      <p className="text-heading mb-2 text-[12px] font-bold">{label}</p>
 
       <button
         ref={buttonRef}
@@ -71,7 +71,7 @@ export default function StatusDropdown({
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         onClick={() => setIsOpen((open) => !open)}
-        className="border-medium-grey/25 bg-dark-grey flex w-full cursor-pointer items-center justify-between rounded-[4px] border px-4 py-[9px] text-left text-[13px] font-medium text-white"
+        className="border-medium-grey/25 bg-surface text-heading flex w-full cursor-pointer items-center justify-between rounded-[4px] border px-4 py-[9px] text-left text-[13px] font-medium"
       >
         {columns.find((column) => column.id === selected)?.name}
         {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
@@ -85,7 +85,7 @@ export default function StatusDropdown({
             left: position.left,
             width: position.width,
           }}
-          className="bg-very-dark-grey fixed z-50 flex flex-col gap-2 rounded-[8px] p-4 shadow-[0px_10px_20px_0px_rgba(54,78,126,0.25)]"
+          className="bg-menu fixed z-50 flex flex-col gap-2 rounded-[8px] p-4 shadow-[0px_10px_20px_0px_rgba(54,78,126,0.25)]"
         >
           {columns.map((column) => (
             <li

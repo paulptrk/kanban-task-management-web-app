@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useKanbanStore } from '../store/useKanbanStore';
 import LightThemeIcon from '../../assets/icon-light-theme.svg?react';
 import DarkThemeIcon from '../../assets/icon-dark-theme.svg?react';
 
 export default function ThemeToggle() {
-  const [isDark, setIsDark] = useState(true);
+  const theme = useKanbanStore((state) => state.theme);
+  const toggleTheme = useKanbanStore((state) => state.toggleTheme);
+  const isDark = theme === 'dark';
 
   return (
-    <div className="bg-very-dark-grey mx-6 mb-2 flex h-12 items-center justify-center gap-6 rounded-[6px]">
+    <div className="bg-page mx-6 mb-2 flex h-12 items-center justify-center gap-6 rounded-[6px]">
       <LightThemeIcon className="size-[19px]" />
       <button
-        onClick={() => setIsDark((prev) => !prev)}
+        onClick={toggleTheme}
         aria-label="Toggle theme"
         aria-pressed={isDark}
         className="bg-main-purple hover:bg-main-purple-hover flex h-5 w-10 shrink-0 cursor-pointer items-center rounded-full p-[3px]"

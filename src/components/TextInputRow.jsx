@@ -17,7 +17,7 @@ export default function TextInputRow({
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           autoFocus={autoFocus}
-          className={`bg-dark-grey w-full rounded-[4px] border py-[9px] pr-4 pl-4 text-[13px] font-medium text-white placeholder:text-white/25 focus:outline-none ${
+          className={`bg-surface text-heading placeholder:text-heading/25 w-full rounded-[4px] border py-[9px] pr-4 pl-4 text-[13px] font-medium focus:outline-none ${
             error
               ? 'border-red'
               : 'border-medium-grey/25 focus:border-main-purple'

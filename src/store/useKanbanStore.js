@@ -8,6 +8,9 @@ export const useKanbanStore = create((set) => {
     boards,
     selectedBoard: boards[0]?.id ?? null,
     setSelectedBoard: (id) => set({ selectedBoard: id }),
+    theme: 'dark',
+    toggleTheme: () =>
+      set((state) => ({ theme: state.theme === 'dark' ? 'light' : 'dark' })),
     addBoard: (board) =>
       set((state) => ({
         boards: [...state.boards, board],

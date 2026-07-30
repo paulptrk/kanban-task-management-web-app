@@ -108,14 +108,14 @@ export default function BoardFormModal({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="flex flex-col gap-6">
-        <p className="text-[18px] font-bold text-white">
+        <p className="text-heading text-[18px] font-bold">
           {isEditMode ? 'Edit Board' : 'Add New Board'}
         </p>
 
         <div className="flex flex-col gap-2">
           <label
             htmlFor="board-name"
-            className="text-[12px] font-bold text-white"
+            className="text-heading text-[12px] font-bold"
           >
             Board Name
           </label>
@@ -125,7 +125,7 @@ export default function BoardFormModal({
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Web Design"
-              className={`bg-dark-grey w-full rounded-[4px] border px-4 py-[9px] text-[13px] font-medium text-white placeholder:text-white/25 focus:outline-none ${
+              className={`bg-surface text-heading placeholder:text-heading/25 w-full rounded-[4px] border px-4 py-[9px] text-[13px] font-medium focus:outline-none ${
                 nameError
                   ? 'border-red'
                   : 'border-medium-grey/25 focus:border-main-purple'
@@ -140,7 +140,7 @@ export default function BoardFormModal({
         </div>
 
         <div className="flex flex-col gap-2">
-          <p className="text-[12px] font-bold text-white">Board Columns</p>
+          <p className="text-heading text-[12px] font-bold">Board Columns</p>
           <div className="flex flex-col gap-3">
             {columns.map((column) => (
               <TextInputRow

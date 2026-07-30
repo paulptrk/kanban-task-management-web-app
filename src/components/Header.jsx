@@ -6,25 +6,31 @@ import BoardFormModal from './BoardFormModal';
 import ConfirmModal from './ConfirmModal';
 import ContextMenu from './ContextMenu';
 import logoLight from '../../assets/logo-light.svg';
+import logoDark from '../../assets/logo-dark.svg';
 
 export default function Header({ showLogo = false }) {
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
   const [isEditingBoard, setIsEditingBoard] = useState(false);
   const [isDeletingBoard, setIsDeletingBoard] = useState(false);
   const deleteBoard = useKanbanStore((state) => state.deleteBoard);
+  const theme = useKanbanStore((state) => state.theme);
   const selectedBoard = useSelectedBoard();
 
   if (!selectedBoard) return null;
 
   return (
-    <div className="border-lines-dark bg-dark-grey flex h-24 w-full shrink-0 items-center border-b pr-6">
+    <div className="border-border bg-surface flex h-24 w-full shrink-0 items-center border-b pr-6">
       {showLogo && (
-        <div className="border-lines-dark flex h-full w-[300px] shrink-0 items-center border-r pl-8">
-          <img src={logoLight} alt="Kanban Logo" className="h-[25px] w-auto" />
+        <div className="border-border flex h-full w-[300px] shrink-0 items-center border-r pl-8">
+          <img
+            src={theme === 'dark' ? logoLight : logoDark}
+            alt="Kanban Logo"
+            className="h-[25px] w-auto"
+          />
         </div>
       )}
       <span
-        className={`flex-1 text-2xl font-bold text-white ${showLogo ? 'pl-8' : 'pl-6'}`}
+        className={`text-heading flex-1 text-2xl font-bold ${showLogo ? 'pl-8' : 'pl-6'}`}
       >
         {selectedBoard.name}
       </span>

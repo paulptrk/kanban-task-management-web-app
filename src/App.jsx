@@ -4,12 +4,16 @@ import ShowSidebarButton from './components/ShowSidebarButton';
 import Header from './components/Header';
 import Board from './components/Board';
 import TaskDetailModal from './components/TaskDetailModal';
+import { useKanbanStore } from './store/useKanbanStore';
 
 function App() {
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const theme = useKanbanStore((state) => state.theme);
 
   return (
-    <div className="bg-very-dark-grey flex h-screen overflow-hidden">
+    <div
+      className={`bg-page flex h-screen overflow-hidden ${theme === 'light' ? 'light' : ''}`}
+    >
       <div
         className={`flex shrink-0 overflow-hidden transition-[width] duration-300 ease-in-out ${
           isSidebarVisible ? 'w-[300px]' : 'w-[0]'

@@ -69,7 +69,7 @@ export default function ContextMenu({ label, items, align = 'center' }) {
         <div
           role="menu"
           style={{ top: position.top, left: position.left }}
-          className="bg-very-dark-grey fixed z-50 flex w-48 flex-col gap-4 rounded-[8px] p-4 shadow-[0px_10px_20px_0px_rgba(54,78,126,0.25)]"
+          className="bg-menu fixed z-50 flex w-48 flex-col gap-4 rounded-[8px] p-4 shadow-[0px_10px_20px_0px_rgba(54,78,126,0.25)]"
         >
           {items.map((item) => (
             <button

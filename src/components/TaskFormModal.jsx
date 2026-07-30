@@ -112,14 +112,14 @@ export default function TaskFormModal({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="flex flex-col gap-6">
-        <p className="text-[18px] font-bold text-white">
+        <p className="text-heading text-[18px] font-bold">
           {isEditMode ? 'Edit Task' : 'Add New Task'}
         </p>
 
         <div className="flex flex-col gap-2">
           <label
             htmlFor="task-title"
-            className="text-[12px] font-bold text-white"
+            className="text-heading text-[12px] font-bold"
           >
             Title
           </label>
@@ -129,7 +129,7 @@ export default function TaskFormModal({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Take coffee break"
-              className={`bg-dark-grey w-full rounded-[4px] border px-4 py-[9px] text-[13px] font-medium text-white placeholder:text-white/25 focus:outline-none ${
+              className={`bg-surface text-heading placeholder:text-heading/25 w-full rounded-[4px] border px-4 py-[9px] text-[13px] font-medium focus:outline-none ${
                 titleError
                   ? 'border-red'
                   : 'border-medium-grey/25 focus:border-main-purple'
@@ -146,7 +146,7 @@ export default function TaskFormModal({
         <div className="flex flex-col gap-2">
           <label
             htmlFor="task-description"
-            className="text-[12px] font-bold text-white"
+            className="text-heading text-[12px] font-bold"
           >
             Description
           </label>
@@ -155,12 +155,12 @@ export default function TaskFormModal({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little."
-            className="bg-dark-grey border-medium-grey/25 focus:border-main-purple h-28 w-full resize-none rounded-[4px] border px-4 py-[9px] text-[13px] font-medium text-white placeholder:text-white/25 focus:outline-none"
+            className="bg-surface border-medium-grey/25 focus:border-main-purple text-heading placeholder:text-heading/25 h-28 w-full resize-none rounded-[4px] border px-4 py-[9px] text-[13px] font-medium focus:outline-none"
           />
         </div>
 
         <div className="flex flex-col gap-2">
-          <p className="text-[12px] font-bold text-white">Subtasks</p>
+          <p className="text-heading text-[12px] font-bold">Subtasks</p>
           <div className="flex flex-col gap-3">
             {subtasks.map((subtask) => (
               <TextInputRow

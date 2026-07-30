@@ -39,7 +39,7 @@ export default function TaskDetailModal() {
         {selectedTask && (
           <div className="flex flex-col gap-6">
             <div className="flex items-start justify-between gap-4">
-              <p className="text-[18px] font-bold text-white">
+              <p className="text-heading text-[18px] font-bold">
                 {selectedTask.title}
               </p>
               <ContextMenu
@@ -60,7 +60,7 @@ export default function TaskDetailModal() {
             </p>
 
             <div className="flex flex-col">
-              <p className="mb-4 text-[12px] font-bold text-white">
+              <p className="text-heading mb-4 text-[12px] font-bold">
                 Subtasks ({numCompletedSubtasks} of {subTasks.length})
               </p>
               <div className="flex flex-col gap-2">
