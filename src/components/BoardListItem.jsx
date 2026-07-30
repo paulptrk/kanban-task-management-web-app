@@ -3,7 +3,7 @@ import BoardIcon from '../../assets/icon-board.svg?react';
 
 const VARIANT_STYLES = {
   active: 'bg-main-purple text-white',
-  inactive: 'text-medium-grey hover:bg-white hover:text-main-purple',
+  inactive: 'text-medium-grey hover:bg-row-hover hover:text-main-purple',
   create: 'text-main-purple',
 };
 
