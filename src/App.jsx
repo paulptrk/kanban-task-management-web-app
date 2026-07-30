@@ -10,14 +10,20 @@ function App() {
 
   return (
     <div className="bg-very-dark-grey flex h-screen overflow-hidden">
-      {isSidebarVisible ? (
+      <div
+        className={`flex shrink-0 overflow-hidden transition-[width] duration-300 ease-in-out ${
+          isSidebarVisible ? 'w-[300px]' : 'w-[0]'
+        }`}
+      >
         <Sidebar onHide={() => setIsSidebarVisible(false)} />
-      ) : (
-        <ShowSidebarButton onClick={() => setIsSidebarVisible(true)} />
-      )}
+      </div>
+      <ShowSidebarButton
+        visible={!isSidebarVisible}
+        onClick={() => setIsSidebarVisible(true)}
+      />
       <TaskDetailModal />
       <div className="flex flex-1 flex-col overflow-hidden">
-        <Header />
+        <Header showLogo={!isSidebarVisible} />
         <Board />
       </div>
     </div>

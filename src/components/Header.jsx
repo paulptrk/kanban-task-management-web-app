@@ -5,8 +5,9 @@ import TaskFormModal from './TaskFormModal';
 import BoardFormModal from './BoardFormModal';
 import ConfirmModal from './ConfirmModal';
 import ContextMenu from './ContextMenu';
+import logoLight from '../../assets/logo-light.svg';
 
-export default function Header() {
+export default function Header({ showLogo = false }) {
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
   const [isEditingBoard, setIsEditingBoard] = useState(false);
   const [isDeletingBoard, setIsDeletingBoard] = useState(false);
@@ -16,8 +17,15 @@ export default function Header() {
   if (!selectedBoard) return null;
 
   return (
-    <div className="border-lines-dark bg-dark-grey flex h-24 w-full shrink-0 items-center justify-between border-b pr-6 pl-6">
-      <span className="text-2xl font-bold text-white">
+    <div className="border-lines-dark bg-dark-grey flex h-24 w-full shrink-0 items-center border-b pr-6">
+      {showLogo && (
+        <div className="border-lines-dark flex h-full w-[300px] shrink-0 items-center border-r pl-8">
+          <img src={logoLight} alt="Kanban Logo" className="h-[25px] w-auto" />
+        </div>
+      )}
+      <span
+        className={`flex-1 text-2xl font-bold text-white ${showLogo ? 'pl-8' : 'pl-6'}`}
+      >
         {selectedBoard.name}
       </span>
       <div className="flex items-center gap-4">
