@@ -1,12 +1,33 @@
 import { useState } from 'react';
 import Column from './Column';
 import BoardFormModal from './BoardFormModal';
+import Button from './Button';
 import { useSelectedBoard } from '../store/useKanbanStore';
 
 export default function Board() {
   const selectedBoard = useSelectedBoard();
   const [isAddingColumn, setIsAddingColumn] = useState(false);
   if (!selectedBoard) return null;
+
+  if (selectedBoard.columns.length === 0) {
+    return (
+      <div className="flex flex-1 flex-col items-center justify-center gap-6">
+        <p className="text-medium-grey text-[18px] font-bold">
+          This board is empty. Create a new column to get started.
+        </p>
+        <Button size="small" onClick={() => setIsAddingColumn(true)}>
+          + Add New Column
+        </Button>
+
+        <BoardFormModal
+          isOpen={isAddingColumn}
+          onClose={() => setIsAddingColumn(false)}
+          board={selectedBoard}
+          autoAddColumn
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-1 items-start gap-6 overflow-x-auto p-6">
