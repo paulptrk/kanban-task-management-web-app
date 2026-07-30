@@ -3,6 +3,7 @@ import { useKanbanStore } from '../store/useKanbanStore';
 import logoLight from '../../assets/logo-light.svg';
 import BoardListItem from './BoardListItem';
 import HideSidebarButton from './HideSidebarButton';
+import ThemeToggle from './ThemeToggle';
 import BoardFormModal from './BoardFormModal';
 
 export default function Sidebar({ onHide }) {
@@ -39,7 +40,10 @@ export default function Sidebar({ onHide }) {
             />
           </div>
         </div>
-        <HideSidebarButton onClick={onHide} />
+        <div className="flex flex-col">
+          <ThemeToggle />
+          <HideSidebarButton onClick={onHide} />
+        </div>
       </div>
 
       <BoardFormModal
