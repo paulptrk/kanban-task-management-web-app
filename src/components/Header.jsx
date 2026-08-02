@@ -19,9 +19,9 @@ export default function Header({ showLogo = false }) {
   if (!selectedBoard) return null;
 
   return (
-    <div className="border-border bg-surface flex h-24 w-full shrink-0 items-center border-b pr-6">
+    <div className="border-border bg-surface flex h-24 max-desktop:h-[81px] w-full shrink-0 items-center border-b pr-6">
       {showLogo && (
-        <div className="border-border flex h-full w-[300px] shrink-0 items-center border-r pl-8">
+        <div className="border-border flex h-full w-[300px] max-desktop:w-[260px] shrink-0 items-center border-r pl-8 max-desktop:pl-[26px]">
           <img
             src={theme === 'dark' ? logoLight : logoDark}
             alt="Kanban Logo"
@@ -30,7 +30,7 @@ export default function Header({ showLogo = false }) {
         </div>
       )}
       <span
-        className={`text-heading flex-1 text-2xl font-bold ${showLogo ? 'pl-8' : 'pl-6'}`}
+        className={`text-heading flex-1 text-2xl max-desktop:text-[20px] font-bold ${showLogo ? 'pl-8 max-desktop:pl-6' : 'pl-6'}`}
       >
         {selectedBoard.name}
       </span>
