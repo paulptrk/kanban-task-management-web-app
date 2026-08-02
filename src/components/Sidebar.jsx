@@ -15,8 +15,8 @@ export default function Sidebar({ onHide }) {
   const [isAddBoardOpen, setIsAddBoardOpen] = useState(false);
 
   return (
-    <div className="bg-surface border-border flex w-[300px] shrink-0 flex-col border-r">
-      <div className="mb-[54px] pt-8 pl-[34px]">
+    <div className="bg-surface border-border flex w-[300px] max-desktop:w-[260px] shrink-0 flex-col border-r">
+      <div className="mb-[54px] pt-8 pl-[34px] max-desktop:pl-[26px]">
         <img
           src={theme === 'dark' ? logoLight : logoDark}
           alt="Kanban Logo"
@@ -26,7 +26,7 @@ export default function Sidebar({ onHide }) {
       <div className="flex flex-1 flex-col justify-between">
         {/* Boards Container*/}
         <div className="flex flex-col">
-          <p className="text-medium-grey mb-[19px] pl-8 text-xs font-bold tracking-[2.4px] uppercase">
+          <p className="text-medium-grey mb-[19px] pl-8 max-desktop:pl-6 text-xs font-bold tracking-[2.4px] uppercase">
             All Boards ({boards.length})
           </p>
           {/* Boards List */}

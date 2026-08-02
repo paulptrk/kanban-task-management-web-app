@@ -1,7 +1,7 @@
 export default function SidebarRow({ icon, label, className = '', onClick }) {
   return (
     <div
-      className={`mr-6 flex h-12 cursor-pointer items-center gap-3 rounded-r-full pl-8 ${className}`}
+      className={`mr-6 flex h-12 cursor-pointer items-center gap-3 rounded-r-full pl-8 max-desktop:pl-6 ${className}`}
       onClick={onClick}
     >
       {icon}

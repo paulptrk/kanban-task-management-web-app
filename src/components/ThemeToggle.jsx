@@ -8,7 +8,7 @@ export default function ThemeToggle() {
   const isDark = theme === 'dark';
 
   return (
-    <div className="bg-page mx-6 mb-2 flex h-12 items-center justify-center gap-6 rounded-[6px]">
+    <div className="bg-page mx-6 max-desktop:mx-[13px] mb-2 flex h-12 items-center justify-center gap-6 rounded-[6px]">
       <LightThemeIcon className="size-[19px]" />
       <button
         onClick={toggleTheme}
