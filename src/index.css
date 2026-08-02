@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 
 @theme {
+  --breakpoint-*: initial;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1440px;
+
   --color-page: #20212c;
   --color-surface: #2b2c37;
   --color-border: #3e3f4e;
