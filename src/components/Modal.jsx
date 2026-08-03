@@ -23,9 +23,9 @@ export default function Modal({ children, className = '', isOpen, onClose }) {
       onClick={handleBackdropClick}
       ref={dialogRef}
       onClose={onClose}
-      className={`bg-surface m-auto w-[480px] rounded-[6px] border-0 backdrop:bg-black/50 ${className}`}
+      className={`bg-surface m-auto w-[calc(100%-32px)] tablet:w-[480px] rounded-[6px] border-0 backdrop:bg-black/50 ${className}`}
     >
-      <div className="rounded-[6px] p-8">{children}</div>
+      <div className="rounded-[6px] p-8 max-tablet:p-6">{children}</div>
     </dialog>
   );
 }
