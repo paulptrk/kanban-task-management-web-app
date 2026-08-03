@@ -6,10 +6,13 @@ import TextInputRow from './TextInputRow';
 import { useKanbanStore } from '../store/useKanbanStore';
 import { createTask } from '../utils/normalizeData';
 
+// Draft rows get their own ids so React keys stay stable while the user
+// adds/removes/reorders inputs
 function createEmptySubtask() {
   return { id: crypto.randomUUID(), value: '' };
 }
 
+// Handles both create and edit; edit mode is inferred from a task being passed
 export default function TaskFormModal({
   isOpen,
   onClose,
@@ -33,6 +36,9 @@ export default function TaskFormModal({
   const [originalColumnId, setOriginalColumnId] = useState(null);
   const [submitted, setSubmitted] = useState(false);
 
+  // Re-seed the form each time the modal opens: prefill from the task when
+  // editing, reset to blanks when creating. The modal stays mounted between
+  // opens, so state would otherwise leak from the previous session
   useEffect(() => {
     if (!isOpen) return;
 
@@ -57,6 +63,7 @@ export default function TaskFormModal({
     setSubmitted(false);
   }, [isOpen]);
 
+  // Validation errors only show after the first submit attempt
   const titleError = submitted && title.trim() === '';
 
   function updateSubtask(id, value) {
@@ -85,6 +92,9 @@ export default function TaskFormModal({
     if (hasEmptyTitle || hasEmptySubtask) return;
 
     if (isEditMode) {
+      // Map draft rows back to the store's subtask shape (value -> title).
+      // isCompleted is undefined for rows added in this session, which is
+      // falsy, so new subtasks start unchecked
       updateTask(task.id, {
         title,
         description,
@@ -94,6 +104,8 @@ export default function TaskFormModal({
           isCompleted: subtask.isCompleted,
         })),
       });
+      // Column changes are a separate store action, only fired if the
+      // status actually changed
       if (status !== originalColumnId) {
         moveTask(task.id, status);
       }

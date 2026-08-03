@@ -16,10 +16,14 @@ export default function StatusDropdown({
   const containerRef = useRef(null);
   const buttonRef = useRef(null);
 
+  // Local copy of the selection so the button label updates instantly on
+  // click; re-synced whenever the parent passes a new value
   useEffect(() => {
     setSelected(value);
   }, [value]);
 
+  // Same fixed-positioning approach as ContextMenu: the list escapes
+  // overflow clipping, so it tracks the trigger on resize/scroll instead
   useLayoutEffect(() => {
     if (!isOpen) return;
 
@@ -41,6 +45,7 @@ export default function StatusDropdown({
     };
   }, [isOpen]);
 
+  // Close on outside click or Escape. Listeners are only attached while open
   useEffect(() => {
     if (!isOpen) return;
 

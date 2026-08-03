@@ -24,12 +24,16 @@ export default function TaskDetailModal() {
   const numCompletedSubtasks = subTasks?.filter(
     (subtask) => subtask.isCompleted
   ).length;
+  // Tasks don't store which column they're in, so it's derived by finding
+  // the column whose task list contains this task
   const currentColumn = selectedBoard?.columns.find((column) =>
     column.tasks.some((task) => task.id === selectedTask?.id)
   );
 
   return (
     <>
+      {/* The detail view hides (without clearing the selected task) while
+          the edit or delete modal is on top, then reappears when they close */}
       <Modal
         isOpen={selectedTask !== null && !isEditing && !isDeleting}
         onClose={() => {

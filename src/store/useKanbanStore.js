@@ -3,9 +3,13 @@ import rawData from '../../data.json';
 import { normalizeBoards } from '../utils/normalizeData';
 
 export const useKanbanStore = create((set) => {
+  // Runs once on store creation: stamps the raw JSON with UUIDs so
+  // everything below can be looked up by id
   const boards = normalizeBoards(rawData);
   return {
     boards,
+    // selectedBoard/selectedTask store ids only; the actual objects are
+    // derived via the selector hooks at the bottom of this file
     selectedBoard: boards[0]?.id ?? null,
     setSelectedBoard: (id) => set({ selectedBoard: id }),
     theme: 'dark',
@@ -29,6 +33,7 @@ export const useKanbanStore = create((set) => {
         );
         return {
           boards: remainingBoards,
+          // Fall back to the first remaining board if the deleted one was open
           selectedBoard:
             state.selectedBoard === boardId
               ? (remainingBoards[0]?.id ?? null)
@@ -37,6 +42,9 @@ export const useKanbanStore = create((set) => {
       }),
     selectedTask: null,
     setSelectedTask: (id) => set({ selectedTask: id }),
+    // Task updates only get an id, not a location, so they rebuild the whole
+    // boards tree. Every level is copied because Zustand relies on new
+    // references to detect changes
     toggleSubtask: (subtaskId) =>
       set((state) => ({
         boards: state.boards.map((board) => ({
@@ -116,6 +124,8 @@ export const useKanbanStore = create((set) => {
   };
 });
 
+// Resolve the stored ids back into live objects. Deriving on every render
+// (instead of storing the objects) keeps components in sync after any update
 export const useSelectedBoard = () =>
   useKanbanStore((state) =>
     state.boards.find((board) => board.id === state.selectedBoard)

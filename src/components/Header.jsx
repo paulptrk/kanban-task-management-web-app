@@ -42,6 +42,8 @@ export default function Header({ showLogo = false }) {
         className="ml-4 h-[25px] w-auto tablet:hidden"
       />
 
+      {/* Board name renders twice: a static label on tablet+, and below it
+          a button on mobile that opens the board menu */}
       <span
         className={`text-heading hidden flex-1 text-2xl max-desktop:text-[20px] font-bold tablet:block ${showLogo ? 'pl-8 max-desktop:pl-6' : 'pl-6'}`}
       >

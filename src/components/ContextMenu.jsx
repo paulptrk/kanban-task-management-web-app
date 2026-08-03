@@ -10,6 +10,11 @@ export default function ContextMenu({ label, items, align = 'center' }) {
   const containerRef = useRef(null);
   const buttonRef = useRef(null);
 
+  // The menu renders position:fixed so it can't be clipped by scrollable
+  // ancestors (e.g. the board's overflow-x). That means it doesn't move with
+  // the page, so its position is recalculated from the trigger button on
+  // every resize/scroll. The capture-phase scroll listener also catches
+  // scrolls inside nested containers, which don't bubble
   useLayoutEffect(() => {
     if (!isOpen) return;
 
@@ -31,6 +36,7 @@ export default function ContextMenu({ label, items, align = 'center' }) {
     };
   }, [isOpen, align]);
 
+  // Close on outside click or Escape. Listeners are only attached while open
   useEffect(() => {
     if (!isOpen) return;
 

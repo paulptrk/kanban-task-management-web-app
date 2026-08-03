@@ -25,6 +25,8 @@ export default function MobileBoardMenu({ isOpen, onClose }) {
 
   return (
     <div className="tablet:hidden">
+      {/* Full-screen backdrop; a button so closing works via click and
+          keyboard alike */}
       <button
         type="button"
         aria-label="Close board menu"

@@ -1,6 +1,8 @@
 import TaskCard from './TaskCard';
 import { useKanbanStore } from '../store/useKanbanStore';
 
+// Dot color comes from column position, cycling for boards with more than
+// three columns
 const DOT_COLORS = ['bg-todo', 'bg-doing', 'bg-done'];
 
 export default function Column({ name, tasks, index }) {

@@ -1,3 +1,7 @@
+// data.json has no ids, so every board/column/task/subtask gets a UUID here.
+// Ids are generated client-side (rather than derived from names) so renames
+// don't break references, and the shape matches what a backend would return
+
 export function createTask(title, description, subtaskTitles) {
   return {
     id: crypto.randomUUID(),

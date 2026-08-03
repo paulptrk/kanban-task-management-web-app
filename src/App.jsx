@@ -10,10 +10,14 @@ function App() {
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
   const theme = useKanbanStore((state) => state.theme);
 
+  // Theming works by toggling the .light class on the root element, which
+  // swaps the CSS color variables everything else reads from
   return (
     <div
       className={`bg-page flex h-screen overflow-hidden ${theme === 'light' ? 'light' : ''}`}
     >
+      {/* The sidebar itself keeps a fixed width; this wrapper animates its
+          own width between full and 0 to create the slide effect */}
       <div
         className={`hidden shrink-0 overflow-hidden transition-[width] duration-300 ease-in-out tablet:flex ${
           isSidebarVisible ? 'w-[300px]' : 'w-[0]'

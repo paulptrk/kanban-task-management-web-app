@@ -6,6 +6,8 @@ export default function Subtask({ subtask }) {
 
   return (
     <label className="bg-page hover:bg-main-purple/25 flex cursor-pointer items-center gap-4 rounded-[4px] px-3 py-[13px]">
+      {/* Real checkbox is visually hidden (sr-only) for keyboard/screen
+          reader support; the styled spans below render the visible state */}
       <input
         onChange={() => toggleSubtask(subtask.id)}
         type="checkbox"

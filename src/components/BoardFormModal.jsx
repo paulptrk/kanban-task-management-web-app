@@ -16,6 +16,9 @@ function createEmptyColumn() {
   return { id: crypto.randomUUID(), value: '', tasks: [] };
 }
 
+// Handles create and edit; edit mode is inferred from a board being passed.
+// autoAddColumn is for the "+ Add New Column" flow: it opens the edit form
+// with a blank, focused column row already appended
 export default function BoardFormModal({
   isOpen,
   onClose,
@@ -32,6 +35,9 @@ export default function BoardFormModal({
   const [submitted, setSubmitted] = useState(false);
   const [autoFocusColumnId, setAutoFocusColumnId] = useState(null);
 
+  // Re-seed the form each time the modal opens (it stays mounted between
+  // opens). Columns keep their tasks in the draft so an edit round-trip
+  // doesn't wipe them
   useEffect(() => {
     if (!isOpen) return;
 
@@ -58,6 +64,7 @@ export default function BoardFormModal({
     setSubmitted(false);
   }, [isOpen]);
 
+  // Validation errors only show after the first submit attempt
   const nameError = submitted && name.trim() === '';
 
   function updateColumn(id, value) {
