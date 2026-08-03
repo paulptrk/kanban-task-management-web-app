@@ -15,7 +15,7 @@ function App() {
       className={`bg-page flex h-screen overflow-hidden ${theme === 'light' ? 'light' : ''}`}
     >
       <div
-        className={`flex shrink-0 overflow-hidden transition-[width] duration-300 ease-in-out ${
+        className={`hidden shrink-0 overflow-hidden transition-[width] duration-300 ease-in-out tablet:flex ${
           isSidebarVisible ? 'w-[300px]' : 'w-[0]'
         }`}
       >
