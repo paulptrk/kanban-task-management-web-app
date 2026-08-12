@@ -121,6 +121,34 @@ export const useKanbanStore = create((set) => {
           };
         }),
       })),
+    // Commits a drag-and-drop result. `order` is a flat { columnId: [taskId] }
+    // map (built by dnd-kit's `move` helper) — rebuilds each matching
+    // column's tasks by looking the ids back up against current state
+    setTaskOrder: (order) =>
+      set((state) => {
+        const taskById = {};
+        state.boards.forEach((board) =>
+          board.columns.forEach((column) =>
+            column.tasks.forEach((task) => {
+              taskById[task.id] = task;
+            })
+          )
+        );
+
+        return {
+          boards: state.boards.map((board) => ({
+            ...board,
+            columns: board.columns.map((column) =>
+              column.id in order
+                ? {
+                    ...column,
+                    tasks: order[column.id].map((id) => taskById[id]),
+                  }
+                : column
+            ),
+          })),
+        };
+      }),
   };
 });
 
